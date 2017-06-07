@@ -5,4 +5,6 @@ Eli Wendlick's commonly-used dotfiles
 ```
 ./install.sh
 ```
-Then follow the instructions
+Then, follow the instructions.
+
+Root is required at the moment for installing packages.

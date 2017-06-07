@@ -1,5 +1,11 @@
 #!/bin/bash
 
+##### check if the user is running this as root ####
+if [ "$EUID" -ne 0 ]
+  then echo "Please run this as root."
+  exit
+fi
+
 ##### check zsh and oh-my-zsh existence
 if ! which 'zsh' > /dev/null 2>&1; then  
   read -p "Zsh not found. Install Zsh? (y/n)" choice
