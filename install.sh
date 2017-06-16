@@ -40,7 +40,8 @@ if ! which 'tmux' > /dev/null 2>&1; then
       cd tmux-2.2;
       LDFLAGS="-L/usr/local/lib -Wl,-rpath=/usr/local/lib" ./configure --prefix=/usr/local;
       make;
-      sudo make install;;
+      sudo make install;
+      sudo cp /usr/local/bin/tmux /usr/bin/tmux;;
     n|N ) echo "no"; quit 1;;
     * ) echo "invalid";;
   esac
