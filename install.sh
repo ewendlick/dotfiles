@@ -1,16 +1,15 @@
 #!/bin/bash
 
-##### check if the user is running this as root ####
-if [ "$EUID" -ne 0 ]
-  then echo "Please run this as root."
+
+if [ "$EUID" -e 0 ]
+  then echo "You are probably running this as root. You should probably run this as a user with sudo priveleges."
   exit
 fi
-
 ##### check zsh and oh-my-zsh existence
-if ! which 'zsh' > /dev/null 2>&1; then  
+if ! which 'zsh' > /dev/null 2>&1; then
   read -p "Zsh not found. Install Zsh? (y/n)" choice
   case "$choice" in 
-    y|Y ) echo "yes"; yum install zsh; chsh -s `which zsh`;;
+    y|Y ) echo "yes"; sudo yum install zsh; chsh -s `which zsh`;;
     n|N ) echo "no"; quit 1;;
     * ) echo "invalid";;
   esac
@@ -18,16 +17,30 @@ fi
 
 if [ ! -d "${HOME}/.oh-my-zsh" ]; then
   echo "installing oh-my-zsh"
-  curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh;   
+  curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh;
   #curl -L http://install.ohmyz.sh | sh #older one
   mv "${HOME}/.zshrc.pre-oh-my-zsh" "${HOME}/.zshrc"
 fi
 
 ##### check tmux existence
-if ! which 'tmux' > /dev/null 2>&1; then  
+if ! which 'tmux' > /dev/null 2>&1; then
   read -p "Tmux not found. Install Tmux? (y/n)" choice
-  case "$choice" in 
-    y|Y ) echo "yes"; yum install tmux;;
+  case "$choice" in
+    y|Y ) echo "yes";
+      sudo yum install gcc
+      wget https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz;
+      tar xzvf libevent-2.0.21-stable.tar.gz;
+      cd libevent-2.0.21-stable;
+      ./configure && make;
+      sudo make install;
+      sudo yum install ncurses-devel libevent-devel automake;
+      wget https://github.com/tmux/tmux/releases/download/2.2/tmux-2.2.tar.gz;
+      tar -xvzf tmux-2.2.tar.gz;
+      cd tmux-2.2;
+      LDFLAGS="-L/usr/local/lib -Wl,-rpath=/usr/local/lib" ./configure --prefix=/usr/local;
+      make;
+      sudo make install;
+      sudo cp /usr/local/bin/tmux /usr/bin/tmux;;
     n|N ) echo "no"; quit 1;;
     * ) echo "invalid";;
   esac
@@ -35,10 +48,10 @@ fi
 # TODO: figure out a way to copy to a decent location and reload it so it uses CTRL+t :source-file /etc/tmux.conf
 
 ##### check vim existence
-if ! which 'vim' > /dev/null 2>&1; then  
+if ! which 'vim' > /dev/null 2>&1; then
   read -p "Vim not found. Install it? (y/n)" choice
-  case "$choice" in 
-    y|Y ) echo "yes"; yum install vim;;
+  case "$choice" in
+    y|Y ) echo "yes"; sudo yum install vim;;
     n|N ) echo "no"; quit 1;;
     * ) echo "invalid";;
   esac
@@ -54,10 +67,10 @@ fi
 
 
 ##### check git existence
-if ! which 'git' > /dev/null 2>&1; then  
+if ! which 'git' > /dev/null 2>&1; then
   read -p "Git not found. Install it? (y/n)" choice
-  case "$choice" in 
-    y|Y ) echo "yes"; yum install git;;
+  case "$choice" in
+    y|Y ) echo "yes"; sudo yum install git;;
     n|N ) echo "no"; quit 1;;
     * ) echo "invalid";;
   esac
@@ -80,9 +93,9 @@ readonly ROOT="${HOME}/dotfiles"
 #TODO: what happens when the dotfiles don't exist in the repo?
 link_files=('.vimrc' '.tmux.conf' '.gitconfig' '.zsh' '.zshrc' '.bashrc' '.irbrc' '.pryrc')
 while true; do
-  echo -ne 'Do you want to create dotfiles as symbolic link? [yes/copy/skip] '
+  echo -ne 'Do you want to create dotfiles as symbolic links, copy them, or skip this step? [symlink/copy/skip] '
   read confirmation
-  if [ "$confirmation" = 'yes' ]; then
+  if [ "$confirmation" = 'symlink' ]; then
     copy_command='ln -s'
     break
   elif [ "$confirmation" = 'copy' ]; then
@@ -92,7 +105,7 @@ while true; do
     copy_command=''
     break
   else
-    echo -n 'Please input "yes", "copy" or "skip". '
+    echo -n 'Please input "symlink", "copy" or "skip". '
     continue
   fi
 done

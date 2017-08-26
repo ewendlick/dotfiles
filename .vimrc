@@ -353,6 +353,12 @@ let g:syntastic_ruby_checkers = ['mri']
 "------------------------------------------------------------
 " Utilities
 "------------------------------------------------------------
+nmap <F2>
+"TODO: check file extension and run appropriate program
+function! RunRuby()
+  :! ruby %
+endfunction
+
 nmap <F5> :call TouchRestart()<CR>
 function! TouchRestart()
   for repo in ['admin', 'admin_suzaku', 'admin_shop', 'racoupon_api']

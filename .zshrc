@@ -13,16 +13,17 @@ zstyle :compinstall filename '/home/vagrant/.zshrc'
 # Run tmux on login
 # [[ $TERM != "screen" ]] && exec tmux # This prevents all logins, lol
 case $- in *i*)
-    [ -z "$TMUX" ] && exec tmux
+    [ -z "$TMUX" ] && exec tmux attach
 esac
 
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-if [[ -f "${HOME}/.bashrc" ]]; then
-  . "${HOME}/.bashrc"
-fi
+# If you wish to add .bashrc contents (causes errors about shopt not found on CentOS7)
+# if [[ -f "${HOME}/.bashrc" ]]; then
+#   . "${HOME}/.bashrc"
+# fi
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
