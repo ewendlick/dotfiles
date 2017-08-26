@@ -1,16 +1,15 @@
 #!/bin/bash
 
-##### check if the user is running this as root ####
-if [ "$EUID" -ne 0 ]
-  then echo "Please run this as root."
+
+if [ "$EUID" -e 0 ]
+  then echo "You are probably running this as root. You should probably run this as a user with sudo priveleges."
   exit
 fi
-
 ##### check zsh and oh-my-zsh existence
 if ! which 'zsh' > /dev/null 2>&1; then
   read -p "Zsh not found. Install Zsh? (y/n)" choice
   case "$choice" in 
-    y|Y ) echo "yes"; yum install zsh; chsh -s `which zsh`;;
+    y|Y ) echo "yes"; sudo yum install zsh; chsh -s `which zsh`;;
     n|N ) echo "no"; quit 1;;
     * ) echo "invalid";;
   esac
@@ -52,7 +51,7 @@ fi
 if ! which 'vim' > /dev/null 2>&1; then
   read -p "Vim not found. Install it? (y/n)" choice
   case "$choice" in
-    y|Y ) echo "yes"; yum install vim;;
+    y|Y ) echo "yes"; sudo yum install vim;;
     n|N ) echo "no"; quit 1;;
     * ) echo "invalid";;
   esac
@@ -71,7 +70,7 @@ fi
 if ! which 'git' > /dev/null 2>&1; then
   read -p "Git not found. Install it? (y/n)" choice
   case "$choice" in
-    y|Y ) echo "yes"; yum install git;;
+    y|Y ) echo "yes"; sudo yum install git;;
     n|N ) echo "no"; quit 1;;
     * ) echo "invalid";;
   esac

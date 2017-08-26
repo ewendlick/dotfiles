@@ -7,4 +7,6 @@ Eli Wendlick's commonly-used dotfiles
 ```
 Then, follow the instructions.
 
-Root is required at the moment for installing packages.
+Sudo access is required for installing packages.
+
+Running this script as root will install dotfiles into /root, so avoid doing that. Or don't. I'm not the boss of you; I'm just a README.
