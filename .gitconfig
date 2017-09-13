@@ -1,0 +1,9 @@
+[push]
+	default = current
+[merge]
+	conflictstyle = diff3
+[credential]
+	helper = cache --timeout=1314000
+[color]
+  diff = auto
+  status = auto
