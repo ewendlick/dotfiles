@@ -71,6 +71,7 @@ NeoBundle 'StanAngeloff/php.vim'        " php
 NeoBundle 'vim-scripts/nginx.vim'       " nginx
 NeoBundle 'xsbeats/vim-blade'           " blade(?)
 NeoBundle 'kannokanno/previm'
+NeoBundle 'posva/vim-vue'               " Vue
 
 " Auto-complete surrounding brackets like Sublime (Doesn't work?)
 NeoBundle 'tpope/vim-surround'
@@ -353,8 +354,7 @@ let g:syntastic_ruby_checkers = ['mri']
 "------------------------------------------------------------
 " Utilities
 "------------------------------------------------------------
-nmap <F2>
-"TODO: check file extension and run appropriate program
+nmap <F2> :call RunRuby()<CR>
 function! RunRuby()
   :! ruby %
 endfunction
