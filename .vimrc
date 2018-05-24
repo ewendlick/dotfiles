@@ -72,7 +72,7 @@ NeoBundle 'vim-scripts/nginx.vim'       " nginx
 NeoBundle 'xsbeats/vim-blade'           " blade(?)
 NeoBundle 'kannokanno/previm'
 NeoBundle 'digitaltoad/vim-pug'         " jade
-NeoBundle 'posva/vim-vue'               " vue
+NeoBundle 'posva/vim-vue'               " Vue
 
 " Auto-complete surrounding brackets like Sublime (Doesn't work?)
 NeoBundle 'tpope/vim-surround'
