@@ -71,12 +71,22 @@ NeoBundle 'StanAngeloff/php.vim'        " php
 NeoBundle 'vim-scripts/nginx.vim'       " nginx
 NeoBundle 'xsbeats/vim-blade'           " blade(?)
 NeoBundle 'kannokanno/previm'
+NeoBundle 'digitaltoad/vim-pug'         " jade
+NeoBundle 'posva/vim-vue'               " vue
 
 " Auto-complete surrounding brackets like Sublime (Doesn't work?)
 NeoBundle 'tpope/vim-surround'
 
 " Fix an issue with sql files freaking out
 NeoBundle 'vim-scripts/dbext.vim'
+
+" Beautify things
+NeoBundle 'beautify-web/js-beautify'
+
+" Let's use Nerdtree for navigation
+NeoBundle 'scrooloose/nerdtree'
+map <F1> :NERDTreeToggle<CR>
+NeoBundle 'Xuyuanp/nerdtree-git-plugin'
 
 call neobundle#end()
 filetype plugin indent on
@@ -267,6 +277,11 @@ highlight ColorColumn ctermbg=234 guibg=#1c1c1c
 let &colorcolumn="121"
 " let &colorcolumn="80,".join(range(121,999),",") " line at 80, block past 120
 
+" Automatically run the syntax highlighter for Vue files to solve an issue
+" where highlighting got lost when the Vim pane was split
+" .... does this work?
+autocmd FileType vue syntax sync fromstart
+
 "------------------------------------------------------------
 " 補完
 "------------------------------------------------------------
@@ -353,7 +368,7 @@ let g:syntastic_ruby_checkers = ['mri']
 "------------------------------------------------------------
 " Utilities
 "------------------------------------------------------------
-nmap <F2>
+nmap <F2> :call RunRuby()<CR>
 "TODO: check file extension and run appropriate program
 function! RunRuby()
   :! ruby %

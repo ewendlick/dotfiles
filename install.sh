@@ -76,6 +76,16 @@ if ! which 'git' > /dev/null 2>&1; then
   esac
 fi
 
+##### Git autocomplete (This doesn't work right on many systems. Probably because these dotfiles break it, lol)
+if which 'git' > /dev/null 2>&1; then
+  read -p "Git not found. Install it? (y/n)" choice
+  case "$choice" in
+    y|Y ) echo "yes"; sudo yum install git;;
+    n|N ) echo "no"; quit 1;;
+    * ) echo "invalid";;
+  esac
+fi
+
 readonly DOTFILES_REPOSITORY="https://github.com/ewendlick/dotfiles.git"
 ##### fetch original dotfiles from GitHub
 if [[ ! -d "${HOME}/dotfiles" ]]; then
