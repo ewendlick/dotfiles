@@ -88,6 +88,18 @@ NeoBundle 'scrooloose/nerdtree'
 map <F1> :NERDTreeToggle<CR>
 NeoBundle 'Xuyuanp/nerdtree-git-plugin'
 
+" Helps save time by helping with filenames
+NeoBundle 'einfachtoll/didyoumean'
+
+" More information from searching text
+NeoBundle 'google/vim-searchindex'
+
+" Press 'gcc' to comment-out a line, or 'gc' to comment-out a block
+NeoBundle 'tpope/vim-commentary'
+
+" Highlight any text and search with #/* (as opposed to just a word)
+NeoBundle 'bronson/vim-visual-star-search'
+
 call neobundle#end()
 filetype plugin indent on
 NeoBundleCheck
