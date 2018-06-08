@@ -1,9 +1,13 @@
+[user]
+  name = ewendlick
+  email = ewendlick@gmail.com
 [push]
 	default = current
 [merge]
-	conflictstyle = diff3
 [credential]
 	helper = cache --timeout=1314000
 [color]
   diff = auto
   status = auto
+[alias]
+  alias gpu='git push -u origin $(git symbolic-ref --short HEAD)'
