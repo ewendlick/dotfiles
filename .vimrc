@@ -74,6 +74,7 @@ NeoBundle 'kannokanno/previm'
 NeoBundle 'digitaltoad/vim-pug'         " jade
 NeoBundle 'pangloss/vim-javascript'     " javascript
 NeoBundle 'posva/vim-vue'               " Vue
+NeoBundle 'mxw/vim-jsx'                 " React
 
 " Auto-complete surrounding brackets like Sublime (Doesn't work?)
 NeoBundle 'tpope/vim-surround'
