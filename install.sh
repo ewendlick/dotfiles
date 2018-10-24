@@ -1,5 +1,14 @@
 #!/bin/bash
 
+if which 'yum' > /dev/null 2>&1; then
+  package_manager='yum'
+elif which 'apt-get' > /dev/null 2>&1; then
+  package_manager='apt-get'
+else
+  echo "Neither Yum nor Apt-get found. I\'m not going to support Pacman and by extension, Arch. I want my drivers to work the first time and not need to deal with nonsense like having fans run at 100% for no reason or a keyboard being detected as a hard drive. Use a flavor of Linux with Yum or Apt-get. If you want the dotfiles, just copy them manually. This script is done."
+  exit 1
+fi
+
 
 if [ "$EUID" -e 0 ]
   then echo "You are probably running this as root. You should probably run this as a user with sudo priveleges."
@@ -9,7 +18,7 @@ fi
 if ! which 'zsh' > /dev/null 2>&1; then
   read -p "Zsh not found. Install Zsh? (y/n)" choice
   case "$choice" in 
-    y|Y ) echo "yes"; sudo yum install zsh; chsh -s `which zsh`;;
+    y|Y ) echo "yes"; sudo ${package_manager} install zsh; chsh -s `which zsh`;;
     n|N ) echo "no"; quit 1;;
     * ) echo "invalid";;
   esac
@@ -27,13 +36,13 @@ if ! which 'tmux' > /dev/null 2>&1; then
   read -p "Tmux not found. Install Tmux? (y/n)" choice
   case "$choice" in
     y|Y ) echo "yes";
-      sudo yum install gcc
+      sudo ${package_manager} install gcc
       wget https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz;
       tar xzvf libevent-2.0.21-stable.tar.gz;
       cd libevent-2.0.21-stable;
       ./configure && make;
       sudo make install;
-      sudo yum install ncurses-devel libevent-devel automake;
+      sudo ${package_manager} install ncurses-devel libevent-devel automake;
       wget https://github.com/tmux/tmux/releases/download/2.2/tmux-2.2.tar.gz;
       tar -xvzf tmux-2.2.tar.gz;
       cd tmux-2.2;
@@ -47,11 +56,21 @@ if ! which 'tmux' > /dev/null 2>&1; then
 fi
 # TODO: figure out a way to copy to a decent location and reload it so it uses CTRL+t :source-file /etc/tmux.conf
 
+##### check ack existence
+if ! which 'ack' > /dev/null 2>&1; then
+  read -p "Ack not found. Install it? (y/n)" choice
+  case "$choice" in
+    y|Y ) echo "yes"; sudo ${package_manager} install ack;;
+    n|N ) echo "no"; quit 1;;
+    * ) echo "invalid";;
+  esac
+fi
+
 ##### check vim existence
 if ! which 'vim' > /dev/null 2>&1; then
   read -p "Vim not found. Install it? (y/n)" choice
   case "$choice" in
-    y|Y ) echo "yes"; sudo yum install vim;;
+    y|Y ) echo "yes"; sudo ${package_manager} install vim;;
     n|N ) echo "no"; quit 1;;
     * ) echo "invalid";;
   esac
@@ -70,7 +89,7 @@ fi
 if ! which 'git' > /dev/null 2>&1; then
   read -p "Git not found. Install it? (y/n)" choice
   case "$choice" in
-    y|Y ) echo "yes"; sudo yum install git;;
+    y|Y ) echo "yes"; sudo ${package_manager} install git;;
     n|N ) echo "no"; quit 1;;
     * ) echo "invalid";;
   esac
@@ -80,7 +99,7 @@ fi
 if which 'git' > /dev/null 2>&1; then
   read -p "Git not found. Install it? (y/n)" choice
   case "$choice" in
-    y|Y ) echo "yes"; sudo yum install git;;
+    y|Y ) echo "yes"; sudo ${package_manager} install git;;
     n|N ) echo "no"; quit 1;;
     * ) echo "invalid";;
   esac
@@ -101,7 +120,7 @@ readonly ROOT="${HOME}/dotfiles"
 
 ##### copy configurations in the repository
 #TODO: what happens when the dotfiles don't exist in the repo?
-link_files=('.vimrc' '.tmux.conf' '.gitconfig' '.zsh' '.zshrc' '.bashrc' '.irbrc' '.pryrc')
+link_files=('.vimrc' '.tmux.conf' '.gitconfig' '.zsh' '.zshrc' '.bashrc' '.irbrc' '.pryrc' '.ackrc')
 while true; do
   echo -ne 'Do you want to create dotfiles as symbolic links, copy them, or skip this step? [symlink/copy/skip] '
   read confirmation
