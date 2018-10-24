@@ -1,0 +1,12 @@
+--color
+--ignore-dir=node_modules/
+--ignore-dir=.git/
+--ignore-dir=dist/
+
+--type-add=css=scss
+--type-add=ruby=.haml,.rselm,.feature,.ru,.lock
+
+#Ignore case distinctions in PATTERN,
+#only if PATTERN contains no upper case.
+#Ignored if -i is specified
+--smart-case
