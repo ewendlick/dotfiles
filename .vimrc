@@ -388,6 +388,12 @@ function! RunRuby()
   :! ruby %
 endfunction
 
+nmap <F3> :call RunNode()<CR>
+"TODO: figure out if this is an anonymous function in Vim
+function! RunNode()
+  :! node %
+endfunction
+
 nmap <F5> :call TouchRestart()<CR>
 function! TouchRestart()
   for repo in ['admin', 'admin_suzaku', 'admin_shop', 'racoupon_api']
