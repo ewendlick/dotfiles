@@ -1,0 +1,7 @@
+
+# -------- Appended from ~/dotfiles ---------
+
+# Things I mistype far too frequently
+alias sl='ls'
+alias bim="vim"
+alias cim="vim"
