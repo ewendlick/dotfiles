@@ -17,7 +17,7 @@ fi
 ##### check zsh and oh-my-zsh existence
 if ! which 'zsh' > /dev/null 2>&1; then
   read -p "Zsh not found. Install Zsh? (y/n)" choice
-  case "$choice" in 
+  case "$choice" in
     y|Y ) echo "yes"; sudo ${package_manager} install zsh; chsh -s `which zsh`;;
     n|N ) echo "no"; quit 1;;
     * ) echo "invalid";;
@@ -120,7 +120,7 @@ readonly ROOT="${HOME}/dotfiles"
 
 ##### copy configurations in the repository
 #TODO: what happens when the dotfiles don't exist in the repo?
-link_files=('.vimrc' '.tmux.conf' '.gitconfig' '.zsh' '.zshrc' '.bashrc' '.irbrc' '.pryrc' '.ackrc')
+link_files=('.vimrc' '.tmux.conf' '.gitconfig' '.zsh' '.zshrc' '.irbrc' '.pryrc' '.ackrc')
 while true; do
   echo -ne 'Do you want to create dotfiles as symbolic links, copy them, or skip this step? [symlink/copy/skip] '
   read confirmation
@@ -160,6 +160,15 @@ if [ -n "$copy_command" ]; then
   done
 fi
 
+if ! which 'zsh' > /dev/null 2>&1; then
+  read -p "Were you too lazy to install zsh? Yeah, recently me too. Would you like to add some aliases and helpful things to the existing .bashrc file? (y/n)" choice
+  case "$choice" in
+    y|Y ) echo "yes"; cat .bashrc_for_appending >> ~/.bashrc;;
+    n|N ) echo "no"; quit 1;;
+    * ) echo "invalid";;
+  esac
+fi
+
 mkdir -p "$(dirname "${HOME}/.vim/bundle/neobundle.vim")"
 if [ ! -d "${HOME}/.vim/bundle/neobundle.vim" ]; then
   echo "clone neobundle: 'https://github.com/Shougo/neobundle.vim' into ${HOME}/.vim/bundle/neobundle.vim"
@@ -173,3 +182,5 @@ if [[ ! -d "${HOME}/.nvm" ]]; then
   git clone 'https://github.com/creationix/nvm.git' "${HOME}/.nvm"
   [[ $? -ne 0 ]] && exit 20
 fi
+
+echo "ok, done. Don't forget to install ack (CentOS) or ack-grep (Debian variants)"
